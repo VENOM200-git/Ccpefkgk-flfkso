@@ -3,62 +3,67 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Facebook Video Downloader Test</title>
+<title>Facebook Video Downloader</title>
 <style>
-  body { font-family: Arial, sans-serif; padding: 20px; background: #111; color: #eee; }
-  input, button { padding: 10px; font-size: 16px; margin-right: 10px; width: 300px; }
-  button { cursor: pointer; background: #e50914; border: none; color: white; }
-  video { max-width: 100%; margin-top: 20px; }
-  a.download-link { display: block; margin-top: 10px; color: #1db954; }
+  body { font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9; }
+  #video-player { width: 640px; max-width: 100%; margin-bottom: 20px; }
+  #download-links a { display: block; margin: 5px 0; color: #007bff; text-decoration: none; }
+  #download-links a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
+<h1>Facebook Video Downloader</h1>
+<input type="text" id="url-input" style="width: 100%; padding: 8px;" 
+  value="https://www.facebook.com/reel/402579285704851/?mibextid=rS40aB7S9Ucbxw6v" />
+<button onclick="fetchVideo()">Get Video</button>
 
-<h1>Facebook Video Downloader Test</h1>
-<input id="urlInput" type="text" placeholder="Paste Facebook video/reel URL here" />
-<button id="downloadBtn">Get Video</button>
+<video id="video-player" controls></video>
 
-<div id="output"></div>
+<div id="download-links"></div>
 
 <script>
-  const apiKey = "prince"; // replace with your API key if needed
-  const output = document.getElementById('output');
-  const btn = document.getElementById('downloadBtn');
-  
-  btn.addEventListener('click', async () => {
-    const url = document.getElementById('urlInput').value.trim();
-    if (!url) {alert('Please enter a Facebook video URL.');
+async function fetchVideo() {
+  const url = document.getElementById('url-input').value.trim();
+  if (!url) return alert('Please enter a Facebook video URL');const apiUrl = `https://api.princetechn.com/api/download/facebook?apikey=prince&url=encodeURIComponent(url)`;
+
+  document.getElementById('download-links').innerHTML = 'Loading...';
+  document.getElementById('video-player').src = ”;
+
+  try 
+    const res = await fetch(apiUrl);
+    const data = await res.json();
+
+    if (data.error || !data.result) 
+      document.getElementById('download-links').innerHTML = 'Video not found or API error.';
       return;
+    
+
+    // The video URL (usually highest quality)
+    const videoUrl = data.result.videoUrl || (data.result.qualities        data.result.qualities[0]?.url);
+    if (videoUrl) 
+      document.getElementById('video-player').src = videoUrl;
+    
+
+    // List all available qualities with download links
+    let html = '<h3>Download Links:</h3>';
+    if (data.result.qualities        data.result.qualities.length > 0) 
+      data.result.qualities.forEach(q => 
+        html += `<a href="{q.url}" target="_blank" download>Download q.quality</a>`;
+      );
+     else if(videoUrl) 
+      html += `<a href="{videoUrl}" target="_blank" download>Download Video</a>`;
+    } else {
+      html += 'No download links available.';
     }
-    output.innerHTML = 'Loading...';
+    document.getElementById('download-links').innerHTML = html;
 
-    try {
-      const apiURL = `https://api.princetechn.com/api/download/facebook?apikey=apiKey   url={encodeURIComponent(url)}`;
-      const res = await fetch(apiURL);
-      const data = await res.json();
+  } catch (err) {document.getElementById('download-links').innerHTML = 'Error fetching video.';
+    console.error(err);
+  }
+}
 
-      if (data.status !== 'success') {
-        output.innerHTML = 'Video not found or API error.';
-        return;
-      }
-
-      // Assuming data.result has video links, usually in data.result or data.result.video_url
-      const videoUrl = data.result?.video_url || data.result?.url || null;
-      if (!videoUrl) {
-        output.innerHTML = 'No video URL found in API response.';
-        return;
-      }
-
-      output.innerHTML = `
-        <video controls autoplay src="videoUrl"></video>
-        <a class="download-link" href="{videoUrl}" download>Download Video</a>
-      `;
-    } catch (error) {
-      output.innerHTML = 'Error fetching video. Try again later.';
-      console.error(error);
-    }
-  });
+// Auto fetch on load for pre-filled link
+fetchVideo();
 </script>
-
 </body>
 </html>
