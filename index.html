@@ -1,272 +1,228 @@
 <!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VENOM MEME</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: #101010;
+      background-color: #111;
       color: #fff;
-    }
-    header {
-      background: #000;
-      padding: 20px;
-      text-align: center;
-      font-size: 2rem;
-      font-weight: bold;
-      letter-spacing: 2px;
-    }
-    nav {
-      display: flex;
-      justify-content: space-around;
-      background: linear-gradient(to right, #4a00e0, #8e2de2);
-      padding: 10px 0;
-    }
-    nav button {
-      background: none;
-      border: none;
-      color: #fff;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-    .tab {
-      display: none;
-      padding: 15px;
-      min-height: 90vh;
-    }
-    .active {
-      display: block;
-    }
-    #home { background: #121212; }
-    #info { background: #1a1f2b; }
-    #about { background: #161616; color: #ddd; }.meme {
-  background: #1a1a1a;
-  border-radius: 10px;
-  margin: 15px auto;
-  max-width: 400px;
-  overflow: hidden;
-  box-shadow: 0 0 10px #000;
-  position: relative;
-}
-.meme img,
-.meme video {
-  width: 100%;
-  display: block;
-}
-.tag {
-  background: rgba(0, 0, 0, 0.6);
-  color: #0f0;
-  padding: 5px;
+      overflow-x: hidden;
+    }header {
+  background: #1f1f1f;
+  padding: 20px;
   text-align: center;
-  font-size: 0.85em;
-}
-.tag.animated {
-  animation: blink 1.5s infinite;
-}
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.2; }
+  font-size: 2rem;
+  font-weight: bold;
+  color: lime;
+  letter-spacing: 0.3em;
 }
 
-.reactions {
+nav {
   display: flex;
   justify-content: space-around;
-  padding: 8px;
-  background: #222;
-  color: #fff;
-  font-size: 1.2rem;
-}
-.reactions span {
-  cursor: pointer;
+  background-color: #222;
+  padding: 10px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
-.cast-member {
-  padding: 10px;
-  margin: 10px 0;
-  background: #222;
-  border-left: 4px solid #0f0;
-  animation: fadeIn 1s ease-in-out both;
+nav button {
+  background: #333;
+  border: none;
+  padding: 10px 20px;
+  color: #fff;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
 }
+
+nav button:hover, nav button.active {
+  background: lime;
+  color: #000;
+}
+
+.tab {
+  display: none;
+  padding: 20px;
+  animation: fadeIn 0.5s ease-in;
+}
+
+.tab.active {
+  display: block;
+}
+
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateX(-10px); }
-  to { opacity: 1; transform: translateX(0); }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#reels-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.meme-post {
+  position: relative;
+  max-width: 100%;
+  background: #1a1a1a;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px #000;
+}
+
+.meme-post img, .meme-post video {
+  width: 100%;
+  display: block;
+  background: #000;
+}
+
+.caption {
+  padding: 10px;
+  background-color: #111;
+  font-size: 0.9em;
+}
+
+.caption a[href*="whatsapp"]::before {
+  content: "\f232";
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  margin-right: 5px;
+  color: lime;
+}
+
+.watermark {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: 0.8rem;
+  padding: 2px 5px;
+  background: rgba(0, 255, 0, 0.6);
+  border-radius: 5px;
+}
+
+.like-count {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 5px 10px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.85em;
+}
+
+.like-count i {
+  color: red;
+}
+
+#usage-time {
+  position: fixed;
+  bottom: 5px;
+  right: 10px;
+  font-size: 0.8em;
+  background: rgba(255,255,255,0.1);
+  padding: 4px 10px;
+  border-radius: 5px;
+  z-index: 9999;
 }
 
 footer {
   text-align: center;
-  padding: 15px;
+  font-size: 0.85em;
   background: #1f1f1f;
-}
-footer a {
-  color: #0f0;
-  text-decoration: none;
-  margin: 0 8px;
-}
-
-#timer {
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-  background: rgba(0,0,0,0.7);
-  color: #0f0;
-  padding: 8px 14px;
-  font-size: 0.9em;
-  border-radius: 8px;
-  z-index: 999;
+  padding: 10px;
+  color: lime;
+  margin-top: 20px;
 }
 
   </style>
 </head>
 <body><header>🇻 🇪 🇳 🇴 🇲 MEME</header><nav>
-  <button onclick="showTab('home')">🏠 Home</button>
-  <button onclick="showTab('info')">ℹ️ Info</button>
-  <button onclick="showTab('about')">📖 About</button>
-</nav><div id="home" class="tab active">
-  <div id="memes-container">Loading memes...</div>
-</div><div id="info" class="tab">
-  <p>Welcome to VENOM MEME — your ultimate destination for non-stop meme madness. Explore hilarious images and video clips that will make your day brighter. Updated regularly and packed with pure internet culture.</p>
-  <p>Join us on:</p>
-  <ul>
-    <li><a href="https://wa.me/2349162835238" target="_blank">WhatsApp DM</a></li>
-    <li><a href="https://whatsapp.com/channel/0029VbAYafP30LKVETcqw32p" target="_blank">WhatsApp Channel</a></li>
-  </ul>
-</div><div id="about" class="tab">
-  <h3>Meet the Cast Behind VENOM MEME</h3>
-  <div id="cast"></div>
-</div><div id="timer">You've been here: 0s</div><footer>
-  Created by VENOM
+  <button onclick="switchTab('home')" class="active">Home</button>
+  <button onclick="switchTab('info')">Info</button>
+  <button onclick="switchTab('about')">About</button>
+  <button onclick="switchTab('chat')">Chat</button>
+</nav><section id="home" class="tab active">
+  <div id="reels-container"></div>
+</section><section id="info" class="tab">
+  <h2>Info</h2>
+  <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/2349162835238" target="_blank">WhatsApp DM</a></p>
+  <p><i class="fab fa-whatsapp"></i> <a href="https://whatsapp.com/channel/0029VbAYafP30LKVETcqw32p" target="_blank">WhatsApp Channel</a></p>
+  <hr>
+  <h3>Admin Access</h3>
+  <input type="password" id="adminPass" placeholder="Enter password">
+  <button onclick="unlockAdmin()">Unlock</button>
+  <div id="adminPanel" style="display:none">
+    <h4>Upload Meme</h4>
+    <input type="file" id="fileInput" accept="image/*,video/*">
+    <input type="text" id="captionInput" placeholder="Enter caption">
+    <button onclick="postMeme()">Post</button>
+    <div id="adminLogs"></div>
+  </div>
+</section><section id="about" class="tab">
+  <h2>About VENOM</h2>
+  <marquee direction="up" scrollamount="2" height="400">
+    <p>🎬 Director: VENOM</p>
+    <p>🎨 UI Designer: VibeWave</p>
+    <p>💬 Comment Master: TalkBot</p>
+    <p>❤️ Reaction Handler: EmoReact</p>
+    <p>🧪 Feedback Tester: TryItDev</p>
+    <p>🔐 Security: SafeByte</p>
+    <p>🚀 Hosting: RenderX</p>
+    <p>📲 Channel Agent: ChatCaptain</p>
+    <p>📤 Meme Poster: PostLord</p>
+    <p>📚 Storyline: PlotBuilder</p>
+    <p>🎭 Support Cast: Memely, BitRick, Streama, Codeee</p>
+    <p>📼 Scene Manager: ReelsBoss</p>
+    <p>🎶 Music: DJ MemeDrop</p>
+    <p>🧠 Idea Brainstorm: HypeHeadz</p>
+    <p>📱 Mobile Lead: DroidSavvy</p>
+  </marquee>
+</section><section id="chat" class="tab">
+  <h2>Community Chat</h2>
+  <div id="chatMessage">🔒 Available after 20 minutes of usage</div>
+</section><div id="usage-time">Time: 0m 0s</div><footer>
+  Built by VENOM | <i class="fab fa-whatsapp"></i> WhatsApp DM & Channel Only
 </footer><script>
-  const memesContainer = document.getElementById('memes-container');
-  const tagText = "VENOM +2349162835238";
-  const castDiv = document.getElementById("cast");
+let start = Date.now();
+setInterval(() => {
+  const now = Date.now();
+  const secs = Math.floor((now - start) / 1000);
+  const mins = Math.floor(secs / 60);
+  document.getElementById("usage-time").textContent = `Time: ${mins}m ${secs % 60}s`;
 
-  function showTab(id) {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-  }
+  if (mins >= 20) {
+    document.getElementById('chatMessage').innerHTML = `<textarea rows='4' cols='40' placeholder='Say something...'></textarea><br><button>Send</button>`;} }, 1000);
 
-  const memeImages = [
-    "https://i.imgur.com/ODZQX3O.jpg", "https://i.imgur.com/Bl9ZVUW.jpg", "https://i.imgur.com/xGZjs3T.jpg",
-    "https://i.imgur.com/FYhYXKm.jpg", "https://i.imgur.com/q3L2c9Q.jpg", "https://i.imgur.com/Ix0h1lT.jpg",
-    "https://i.imgur.com/nJWJrqV.jpg", "https://i.imgur.com/Ax9XXuL.jpg", "https://i.imgur.com/vEVpM2X.jpg",
-    "https://i.imgur.com/kVnq3VV.jpg", "https://i.imgur.com/JCP4QnM.jpg", "https://i.imgur.com/FIv7ZJ2.jpg",
-    "https://i.imgur.com/UQhKwhu.jpg", "https://i.imgur.com/sz9Wpxs.jpg", "https://i.imgur.com/0t3uAzI.jpg",
-    "https://i.imgur.com/TMaWkxl.jpg", "https://i.imgur.com/ZWmEFBd.jpg", "https://i.imgur.com/6SIAaRA.jpg",
-    "https://i.imgur.com/NhvY1Qi.jpg", "https://i.imgur.com/YVoS01M.jpg", "https://i.imgur.com/NQyYtbT.jpg",
-    "https://i.imgur.com/Te1Mxms.jpg", "https://i.imgur.com/p2X9q1V.jpg", "https://i.imgur.com/mVSlFx7.jpg",
-    "https://i.imgur.com/I0GVl5L.jpg", "https://i.imgur.com/HBRDwXm.jpg", "https://i.imgur.com/nYi0vAO.jpg",
-    "https://i.imgur.com/bvTRvXR.jpg", "https://i.imgur.com/vV6VpZ3.jpg", "https://i.imgur.com/L1RtkrY.jpg",
-    "https://i.imgur.com/bNHfTiH.jpg", "https://i.imgur.com/E6zQjEv.jpg", "https://i.imgur.com/yA4mfFl.jpg",
-    "https://i.imgur.com/WeHPefX.jpg", "https://i.imgur.com/gC7Hw8Z.jpg", "https://i.imgur.com/ZuJpNTL.jpg",
-    "https://i.imgur.com/3TnIvDA.jpg", "https://i.imgur.com/XYqTc3O.jpg", "https://i.imgur.com/vzP0j2O.jpg",
-    "https://i.imgur.com/SZu7AxL.jpg", "https://i.imgur.com/RYRiqlC.jpg", "https://i.imgur.com/ek4ijg8.jpg",
-    "https://i.imgur.com/AxloKrX.jpg", "https://i.imgur.com/h0bGg7b.jpg", "https://i.imgur.com/QTTrktB.jpg",
-    "https://i.imgur.com/29cW2Uu.jpg", "https://i.imgur.com/xqp8Ix7.jpg", "https://i.imgur.com/KrUp1hZ.jpg",
-    "https://i.imgur.com/EoFvciX.jpg", "https://i.imgur.com/4vC0jS3.jpg"
-  ];
+function switchTab(tabId) { document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active')); document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active')); document.getElementById(tabId).classList.add('active'); [...document.querySelectorAll('nav button')].find(b => b.textContent.toLowerCase() === tabId).classList.add('active'); }
 
-  const videoMemes = [
-    "https://www.reddit.com/video/embed?id=1k4wqgj5lcbaq&autoplay=1",
-    "https://www.reddit.com/video/embed?id=1jtx6f6w0i2baq&autoplay=1",
-    "https://www.reddit.com/video/embed?id=1jx9dp6lzi2baq&autoplay=1",
-    "https://www.youtube.com/embed/CW0ZzKfHM3s",
-    "https://www.youtube.com/embed/EL-D9LrFJd4",
-    "https://www.youtube.com/embed/VYOjWnS4cMY",
-    "https://www.youtube.com/embed/qfTIEQD0XiE",
-    "https://www.youtube.com/embed/N6tS-4c-uAg",
-    "https://www.youtube.com/embed/7CjzS1yfhzI",
-    "https://www.youtube.com/embed/IYnsfV5N2n8",
-    "https://www.youtube.com/embed/vX1xvXs9mYk",
-    "https://www.youtube.com/embed/XY_U6WvQZms",
-    "https://www.youtube.com/embed/wz2RHljgV64",
-    "https://www.youtube.com/embed/xYMtKibW0bA",
-    "https://www.youtube.com/embed/p0CzFqCE4hY",
-    "https://www.youtube.com/embed/oHg5SJYRHA0",
-    "https://www.youtube.com/embed/vU6bDJwGGM4",
-    "https://www.youtube.com/embed/vEXPHKoZxzI",
-    "https://www.youtube.com/embed/2g5Hz17C4is",
-    "https://www.youtube.com/embed/lXMskKTw3Bc"
-  ];
+function unlockAdmin() { const pass = document.getElementById('adminPass').value; if (pass === 'venomadmin123') { document.getElementById('adminPanel').style.display = 'block'; } else { alert('Wrong password'); } }
 
-  // Load image memes
-  memeImages.forEach(url => {
-    const memeDiv = document.createElement('div');
-    memeDiv.className = 'meme';
-    const img = document.createElement('img');
-    img.src = url;
-    const tag = document.createElement('div');
-    tag.className = 'tag';
-    tag.textContent = tagText;
-    const react = document.createElement('div');
-    react.className = 'reactions';
-    react.innerHTML = '❤️ 😭 🤣 😡';
-    memeDiv.appendChild(img);
-    memeDiv.appendChild(tag);
-    memeDiv.appendChild(react);
-    memesContainer.appendChild(memeDiv);
-  });
+function postMeme() { const file = document.getElementById('fileInput').files[0]; const caption = document.getElementById('captionInput').value; if (!file) return alert("Choose a meme file first");
 
-  // Load video memes
-  videoMemes.forEach(url => {
-    const memeDiv = document.createElement('div');
-    memeDiv.className = 'meme';
-    const iframe = document.createElement('iframe');
-    iframe.src = url;
-    iframe.allow = "autoplay; encrypted-media";
-    iframe.allowFullscreen = true;
-    iframe.loading = "lazy";
-    iframe.width = "100%";
-    iframe.height = "315";
-    const tag = document.createElement('div');
-    tag.className = 'tag animated';
-    tag.textContent = tagText;
-    const react = document.createElement('div');
-    react.className = 'reactions';
-    react.innerHTML = '❤️ 😭 🤣 😡';
-    memeDiv.appendChild(iframe);
-    memeDiv.appendChild(tag);
-    memeDiv.appendChild(react);
-    memesContainer.appendChild(memeDiv);
-  });
+const reader = new FileReader(); reader.onload = function (e) { const src = e.target.result; const container = document.createElement('div'); container.className = 'meme-post';
 
-  // Cast section
-  const cast = [
-    "VenomBot - Meme scraper and sarcasm king",
-    "GigaMod - Guardian of weird TikTok edits",
-    "Wakajoke - Nigerian meme whisperer",
-    "LagCool - Chill lord of the image archives",
-    "CryEmoji - Collector of sad memes",
-    "GlitchGirl - Glitched the UI and fixed it stylishly",
-    "LoopLord - Keeps videos looping forever",
-    "PixelPapa - Optimized every image without mercy",
-    "JollofJay - Writes spicy meme captions",
-    "ZuckerPunch - Handles WhatsApp links like a pro",
-    "MechMeme - Built the meme engine core",
-    "SpammyT - Made sure you can comment endlessly",
-    "Dr.React - Likes everything. Literally.",
-    "FaintLaugh - Adds delay to punchlines for effect",
-    "NoLoginNina - Comments without signing in",
-    "FlashGag - Boosts scroll speed with humor",
-    "Emojina - Picks the best emojis for reactions",
-    "Memelord22 - Summons viral classics",
-    "404Banana - Makes errors funnier",
-    "The End - Writes this paragraph you're reading"
-  ];
+const media = file.type.includes("video") ? `<video src="${src}" controls></video>` : `<img src="${src}" alt="meme">`;
 
-  cast.forEach(text => {
-    const p = document.createElement('div');
-    p.className = 'cast-member';
-    p.textContent = text;
-    castDiv.appendChild(p);
-  });
+container.innerHTML = `
+  ${media}
+  <div class="watermark">VENOM</div>
+  <div class="caption">${caption}</div>
+  <div class="like-count"><i class="fas fa-heart"></i> <span>0</span></div>
+`;
+document.getElementById("reels-container").prepend(container);
 
-  // Timer
-  let seconds = 0;
-  setInterval(() => {
-    seconds++;
-    document.getElementById("timer").textContent = `You've been here: ${Math.floor(seconds / 60)}m ${seconds % 60}s`;
-  }, 1000);
-</script></body>
+} reader.readAsDataURL(file); } </script>
+
+</body>
   </html>
