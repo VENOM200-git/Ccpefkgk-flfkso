@@ -2,273 +2,274 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VENOM MEME</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <title>🇻 🇪 🇳 🇴 🇲 MEME</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <style>
-    html, body {
+    * {
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #000;
-      color: #fff;
+      box-sizing: border-box;
+      font-family: sans-serif;
+    }
+    body {
+      background: #000;
+      color: white;
       overflow-x: hidden;
-      font-size: 1.1rem;
-    }header {
-  background: #121212;
-  padding: 20px;
-  text-align: center;
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #ff0050;
-  letter-spacing: 0.3em;
-}
-
-.menu-toggle {
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 2rem;
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  cursor: pointer;
-  z-index: 2000;
-}
-
-nav {
-  display: none;
-  flex-direction: column;
-  position: absolute;
-  top: 70px;
-  left: 10px;
-  background: #1a1a1a;
-  border-radius: 10px;
-  overflow: hidden;
-  z-index: 1000;
-}
-
-nav.show {
-  display: flex;
-}
-
-nav button {
-  background: #1a1a1a;
-  border: none;
-  padding: 15px 20px;
-  color: #fff;
-  font-size: 1.2rem;
-  text-align: left;
-  border-bottom: 1px solid #333;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-nav button:hover, nav button.active {
-  background: #ff0050;
-  color: #fff;
-}
-
-.tab {
-  display: none;
-  padding: 20px;
-  animation: fadeIn 0.5s ease-in;
-}
-
-.tab.active {
-  display: block;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-#reels-container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.meme-post {
-  position: relative;
-  max-width: 100%;
-  background: #121212;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 0 10px #000;
-}
-
-.meme-post img, .meme-post video {
-  width: 100%;
-  display: block;
-  background: #000;
-}
-
-.caption {
-  padding: 10px;
-  background-color: #111;
-  font-size: 1rem;
-}
-
-.caption a[href*="whatsapp"]::before {
-  content: "\f232";
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 900;
-  margin-right: 5px;
-  color: #25D366;
-}
-
-.watermark {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  font-size: 1rem;
-  padding: 2px 6px;
-  background: rgba(255, 0, 80, 0.6);
-  border-radius: 5px;
-}
-
-.like-count {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  background: rgba(0, 0, 0, 0.6);
-  padding: 5px 10px;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 1rem;
-}
-
-.like-count i {
-  color: #ff0050;
-}
-
-#usage-time {
-  position: fixed;
-  bottom: 5px;
-  right: 10px;
-  font-size: 1rem;
-  background: rgba(255,255,255,0.1);
-  padding: 6px 12px;
-  border-radius: 5px;
-  z-index: 9999;
-}
-
-footer {
-  text-align: center;
-  font-size: 1rem;
-  background: #1a1a1a;
-  padding: 10px;
-  color: #ff0050;
-  margin-top: 20px;
-}
-
+    }
+    header {
+      text-align: center;
+      padding: 1rem;
+      background: #111;
+      font-size: 24px;
+      color: #ff0050;
+      font-weight: bold;
+    }
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 250px;
+      background: #1a1a1a;
+      transform: translateX(-100%);
+      transition: 0.3s ease;
+      z-index: 999;
+    }
+    nav.open {
+      transform: translateX(0);
+    }
+    nav ul {
+      list-style: none;
+      padding: 1rem;
+    }
+    nav li {
+      padding: 1rem 0;
+      border-bottom: 1px solid #333;
+      cursor: pointer;
+    }
+    .menu-toggle {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      font-size: 24px;
+      z-index: 1000;
+      cursor: pointer;
+    }
+    .tab {
+      display: none;
+      padding: 1rem;
+    }
+    .tab.active {
+      display: block;
+    }
+    .reels {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .reel {
+      background: #111;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+    video, img {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+    }
+    .watermark {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: rgba(255, 0, 80, 0.7);
+      padding: 4px 8px;
+      font-size: 14px;
+      border-radius: 6px;
+    }
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 1rem;
+    }
+    .actions button {
+      background: none;
+      color: white;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .comment-section {
+      background: #111;
+      padding: 0.5rem 1rem;
+    }
+    .comment {
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      border-bottom: 1px solid #333;
+    }
+    .reactions {
+      margin-top: 0.25rem;
+    }
+    .reactions span {
+      margin-right: 10px;
+      cursor: pointer;
+    }
+    .comment-input {
+      width: 100%;
+      padding: 0.5rem;
+      border: none;
+      border-radius: 6px;
+      margin-top: 0.5rem;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: #111;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+      font-size: 14px;
+    }
+    #usage-timer {
+      position: fixed;
+      bottom: 3rem;
+      right: 1rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem;
+      border-radius: 8px;
+    }
   </style>
 </head>
-<body><header>🇻 🇪 🇳 🇴 🇲 MEME</header><button class="menu-toggle" onclick="toggleMenu()">
-  <i class="fas fa-bars"></i>
-</button><nav id="menu">
-  <button onclick="switchTab('home')" class="active">Home</button>
-  <button onclick="switchTab('info')">Info</button>
-  <button onclick="switchTab('about')">About</button>
-  <button onclick="switchTab('chat')">Chat</button>
-</nav><section id="home" class="tab active">
-  <div id="reels-container"></div>
-</section><section id="info" class="tab">
-  <h2>Info</h2>
-  <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/2349162835238" target="_blank">WhatsApp DM</a></p>
-  <p><i class="fab fa-whatsapp"></i> <a href="https://whatsapp.com/channel/0029VbAYafP30LKVETcqw32p" target="_blank">WhatsApp Channel</a></p>
-  <hr>
-  <h3>Admin Access</h3>
-  <input type="password" id="adminPass" placeholder="Enter password">
-  <button onclick="unlockAdmin()">Unlock</button>
-  <div id="adminPanel" style="display:none">
-    <h4>Upload Meme</h4>
-    <input type="file" id="fileInput" accept="image/*,video/*">
-    <input type="text" id="captionInput" placeholder="Enter caption">
-    <button onclick="postMeme()">Post</button>
-    <div id="adminLogs"></div>
-  </div>
-</section><section id="about" class="tab">
-  <h2>About VENOM</h2>
-  <marquee direction="up" scrollamount="2" height="400">
-    <p>🎬 Director: VENOM</p>
-    <p>🎨 UI Designer: VibeWave</p>
-    <p>💬 Comment Master: TalkBot</p>
-    <p>❤️ Reaction Handler: EmoReact</p>
-    <p>🧪 Feedback Tester: TryItDev</p>
-    <p>🔐 Security: SafeByte</p>
-    <p>🚀 Hosting: RenderX</p>
-    <p>📲 Channel Agent: ChatCaptain</p>
-    <p>📤 Meme Poster: PostLord</p>
-    <p>📚 Storyline: PlotBuilder</p>
-    <p>🎭 Support Cast: Memely, BitRick, Streama, Codeee</p>
-    <p>📼 Scene Manager: ReelsBoss</p>
-    <p>🎶 Music: DJ MemeDrop</p>
-    <p>🧠 Idea Brainstorm: HypeHeadz</p>
-    <p>📱 Mobile Lead: DroidSavvy</p>
-  </marquee>
-</section><section id="chat" class="tab">
-  <h2>Community Chat</h2>
-  <div id="chatMessage">
-    <textarea rows='4' cols='40' placeholder='Say something...'></textarea><br><button>Send</button>
-  </div>
-</section><div id="usage-time">Time: 0m 0s</div><footer>
-  Built by VENOM | <i class="fab fa-whatsapp"></i> WhatsApp DM & Channel Only
-</footer><script>
-function switchTab(tabId) {
-  document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-  document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
-  document.getElementById(tabId).classList.add('active');
-  [...document.querySelectorAll('nav button')].find(b => b.textContent.toLowerCase() === tabId).classList.add('active');
-  document.getElementById("menu").classList.remove("show");
-}
+<body>
+  <div class="menu-toggle" onclick="toggleMenu()">&#9776;</div>
+  <nav id="sidebar">
+    <ul>
+      <li onclick="showTab('home')">Home</li>
+      <li onclick="showTab('upload')">Upload</li>
+      <li onclick="showTab('chat')">Chat</li>
+      <li onclick="showTab('about')">About</li>
+      <li onclick="showTab('info')">Info</li>
+    </ul>
+  </nav>  <header>🇻 🇪 🇳 🇴 🇲 MEME</header>  <section id="home" class="tab active">
+    <div class="reels" id="reels-feed"></div>
+  </section>  <section id="upload" class="tab">
+    <h2>Admin Upload</h2>
+    <input type="file" id="uploadFile" />
+    <input type="text" id="caption" placeholder="Caption" />
+    <button onclick="uploadMeme()">Upload Meme</button>
+    <div id="uploadPreview"></div>
+  </section>  <section id="chat" class="tab">
+    <h2>User Chat</h2>
+    <div class="chat-section" id="chatBox"></div>
+    <input class="chat-input" id="chatInput" placeholder="Say something..." />
+    <button onclick="sendChat()">Send</button>
+  </section>  <section id="about" class="tab">
+    <h2>About</h2>
+    <marquee direction="up" scrollamount="2" style="height: 200px">
+      <p>Developer: VENOM</p>
+      <p>UI Designer: Memeflow</p>
+      <p>Soundtrack: Eminem - VENOM (2x)</p>
+      <p>Reel Stylist: Reelify</p>
+      <p>Reactor Bot: ChatStorm</p>
+      <p>Viewer Counter: TimeMe.js</p>
+      <p>Uploader Handler: VenomUploader</p>
+      <p>Chat Assistant: VenomTalk</p>
+      <p>Admin Gatekeeper: SupaGuardian</p>
+      <p>Backend Phantom: GhostNode</p>
+    </marquee>
+  </section>  <section id="info" class="tab">
+    <h2>Info</h2>
+    <p><strong>Admin Password:</strong> <code>venomadmin</code></p>
+    <p>📝 <a href="https://wa.me/2349162835238">📩 WhatsApp DM</a></p>
+    <p>📝 <a href="https://whatsapp.com/channel/0029VbAYafP30LKVETcqw32p">📩 Follow Channel</a></p>
+  </section>  <footer>
+    Made by VENOM | <a href="https://wa.me/2349162835238">📩 Contact</a>
+  </footer>  <div id="usage-timer">Used: 0s</div>  <script>
+    const supabaseUrl = 'https://swqteiulnzpzrakxanyk.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN3cXRlaXVsbnpwenJha3hhbnlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE4OTgzMDQsImV4cCI6MjA2NzQ3NDMwNH0.tr6oMgA0nu8R_sxzeMuikbhp07C-2VJrP2ARoUQDpBI';
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-function toggleMenu() {
-  document.getElementById("menu").classList.toggle("show");
-}
+    function toggleMenu() {
+      document.getElementById('sidebar').classList.toggle('open');
+    }
 
-function unlockAdmin() {
-  const pass = document.getElementById('adminPass').value;
-  if (pass === 'venomadmin123') {
-    document.getElementById('adminPanel').style.display = 'block';
-  } else {
-    alert('Wrong password');
-  }
-}
+    function showTab(tabId) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+    }
 
-function postMeme() {
-  const file = document.getElementById('fileInput').files[0];
-  const caption = document.getElementById('captionInput').value;
-  if (!file) return alert("Choose a meme file first");
+    async function loadMemes() {
+      const { data, error } = await supabase.from('memes').select('*').order('created_at', { ascending: false });
+      const container = document.getElementById('reels-feed');
+      if (data) {
+        container.innerHTML = '';
+        data.forEach(post => {
+          const reel = document.createElement('div');
+          reel.className = 'reel';
+          let mediaHTML = post.type === 'video' ?
+            `<video controls src="${post.url}"></video>` :
+            `<img src="${post.url}"/>`;
 
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    const src = e.target.result;
-    const container = document.createElement('div');
-    container.className = 'meme-post';
-    const media = file.type.includes("video")
-      ? `<video src="${src}" controls></video>`
-      : `<img src="${src}" alt="meme">`;
-    container.innerHTML = `
-      ${media}
-      <div class="watermark">VENOM</div>
-      <div class="caption">${caption}</div>
-      <div class="like-count"><i class="fas fa-heart"></i> <span>0</span></div>
-    `;
-    document.getElementById("reels-container").prepend(container);
-  }
-  reader.readAsDataURL(file);
-}
+          reel.innerHTML = `
+            ${mediaHTML}
+            <div class="watermark">🇻 🇪 🇳 🇴 🇲</div>
+            <div class="actions">
+              <button onclick="likePost(this)">❤️</button>
+              <button onclick="window.open('https://wa.me/?text=${post.url}')">📝</button>
+            </div>
+            <div class="comment-section">
+              <div class="comment">Awesome!
+                <div class="reactions">
+                  <span onclick="reactToComment(this, '😭')">😭</span>
+                  <span onclick="reactToComment(this, '🤣')">🤣</span>
+                  <span onclick="reactToComment(this, '😡')">😡</span>
+                </div>
+              </div>
+              <input class="comment-input" placeholder="Add a comment..." />
+            </div>
+          `;
 
-let start = Date.now();
-setInterval(() => {
-  const now = Date.now();
-  const secs = Math.floor((now - start) / 1000);
-  const mins = Math.floor(secs / 60);
-  document.getElementById("usage-time").textContent = `Time: ${mins}m ${secs % 60}s`;
-}, 1000);
-</script></body>
-  </html>
+          container.appendChild(reel);
+        });
+      }
+    }
+
+    function likePost(btn) {
+      btn.innerHTML = '❤️ 1'; // Simulated count + animation can be added
+    }
+
+    function reactToComment(span, emoji) {
+      span.innerHTML = emoji + ' ✅'; // Simulate reaction
+    }
+
+    async function uploadMeme() {
+      const file = document.getElementById('uploadFile').files[0];
+      const caption = document.getElementById('caption').value;
+      if (!file) return alert("Select a file first");
+      const { data, error } = await supabase.storage.from('memes').upload(`uploads/${file.name}`, file);
+      if (data) {
+        const ext = file.type.includes('video') ? 'video' : 'image';
+        const url = `https://swqteiulnzpzrakxanyk.supabase.co/storage/v1/object/public/memes/uploads/${file.name}`;
+        await supabase.from('memes').insert([{ url, type: ext, caption }]);
+        loadMemes();
+      }
+    }
+
+    function sendChat() {
+      const val = document.getElementById('chatInput').value;
+      const div = document.createElement('div');
+      div.textContent = `User: ${val}`;
+      document.getElementById('chatBox').appendChild(div);
+      document.getElementById('chatInput').value = '';
+    }
+
+    let startTime = Date.now();
+    setInterval(() => {
+      const sec = Math.floor((Date.now() - startTime) / 1000);
+      document.getElementById('usage-timer').textContent = `Used: ${sec}s`;
+    }, 1000);
+
+    loadMemes();
+  </script></body>
+                                                                  </html>
