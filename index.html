@@ -3,233 +3,62 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>VENOM FB Video Downloader</title>
+<title>Facebook Video Downloader Test</title>
 <style>
-  body {
-    background: #111;
-    color: #eee;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0; padding: 0;
-  }
-  header {
-    background: #222;
-    padding: 1rem;
-    text-align: center;
-    font-size: 2rem;
-    font-weight: bold;
-    letter-spacing: 2px;
-  }
-  main {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 0 1rem;
-  }
-  label {
-    font-size: 1.2rem;
-  }
-  input[type="text"] {
-    width: 100%;
-    padding: 0.7rem;
-    font-size: 1rem;
-    margin-top: 0.3rem;
-    border-radius: 6px;
-    border: none;
-    outline: none;
-  }
-  button {
-    margin-top: 1rem;
-    padding: 0.8rem 2rem;
-    font-size: 1.1rem;
-background: #e63946;
-    border: none;
-    border-radius: 6px;
-    color: white;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  button:hover {
-    background: #d62828;
-  }
-  .video-container {
-    margin-top: 2rem;
-    text-align: center;
-  }
-  video {
-    width: 100%;
-    max-height: 450px;
-    border-radius: 8px;
-    background: black;
-  }
-  .downloads {
-    margin-top: 1rem;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-  }
-  .download-btn {
-    background: #457b9d;
-    padding: 0.6rem 1.2rem;
-    border-radius: 6px;
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
-    transition: background 0.3s;
-  }
-  .download-btn:hover {
-    background: #1d3557;
-  }
-  .error {
-    margin-top: 1rem;
-    color: #f44336;
-    font-weight: bold;
-    text-align: center;
-  }
-  .viral-section {
-    margin-top: 3rem;
-  }
-  .viral-section h2 {
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-  .viral-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-  }
-  .viral-item {
-    background: #222;
-    padding: 0.8rem;
-    border-radius: 8px;
-    width: 220px;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  .viral-item:hover {
-    background: #333;
-  }
-  .viral-item video {
-[07/07, 01:05] BEST BUDDY: width: 100%;
-    border-radius: 6px;
-  }
-  .viral-item p {
-    margin-top: 0.5rem;
-    font-size: 0.9rem;
-    color: #ccc;
-  }
+  body { font-family: Arial, sans-serif; padding: 20px; background: #111; color: #eee; }
+  input, button { padding: 10px; font-size: 16px; margin-right: 10px; width: 300px; }
+  button { cursor: pointer; background: #e50914; border: none; color: white; }
+  video { max-width: 100%; margin-top: 20px; }
+  a.download-link { display: block; margin-top: 10px; color: #1db954; }
 </style>
 </head>
 <body>
-<header>VENOM FB Video Downloader</header>
-<main>
-  <label for="fburl">Paste Facebook video or reel URL:</label>
-  <input type="text" id="fburl" placeholder="https://www.facebook.com/..." />
-  <button id="downloadBtn">Get Video</button>
-  
-  <div class="video-container" id="videoContainer" style="display:none;">
-    <video id="previewVideo" controls autoplay muted></video>
-    <div class="downloads" id="downloads"></div>
-  </div>
-  
-  <div class="error" id="errorMsg"></div>
-  
-  <section class="viral-section">
-    <h2>Trending Facebook Videos</h2>
-    <div class="viral-list" id="viralList">
-      <!-- Viral videos inserted by JS -->
-    </div>
-  </section>
-</main>
+
+<h1>Facebook Video Downloader Test</h1>
+<input id="urlInput" type="text" placeholder="Paste Facebook video/reel URL here" />
+<button id="downloadBtn">Get Video</button>
+
+<div id="output"></div>
 
 <script>
-  const apiToken = 'apify_api_e3pthOULGS8haeIDYtc215p8JbfCOY49htmr';
-  const apiBase = 'https://api.apify.com/v2/actor-runs/2n2e5foKVOrRroYLe/outputs/default';
-
-  const viralVideos = [
-    {
-      title: "Crazy Football Goal",
-      url: "https://www.facebook.com/reel/402579285704851"
-    },
-    {
-      title: "Amazing Dance Move",
-      url: "https://www.facebook.com/reel/380123456789012"
-    },
-    {
-      title: "Funny Cat Video",
-url: "https://www.facebook.com/video.php?v=10156012345678901"
-    }
-  ];
-
-  const fburlInput = document.getElementById('fburl');
-  const downloadBtn = document.getElementById('downloadBtn');
-  const videoContainer = document.getElementById('videoContainer');
-  const previewVideo = document.getElementById('previewVideo');
-  const downloadsDiv = document.getElementById('downloads');
-  const errorMsg = document.getElementById('errorMsg');
-  const viralList = document.getElementById('viralList');
-
-  // Populate viral videos
-  viralVideos.forEach(v => {
-    const div = document.createElement('div');
-    div.className = 'viral-item';
-    div.title = v.title;
-    div.innerHTML = `
-      <video src="v.url" muted loop playsinline></video>
-      <p>{v.title}</p>
-    `;
-    div.addEventListener('click', () => {
-      fburlInput.value = v.url;
-      downloadVideo();
-    });
-    viralList.appendChild(div);
-  });
-
-  async function downloadVideo() {
-    const url = fburlInput.value.trim();
-    if (!url) {
-      errorMsg.textContent = 'Please enter a Facebook video URL.';
-      videoContainer.style.display = 'none';
+  const apiKey = "prince"; // replace with your API key if needed
+  const output = document.getElementById('output');
+  const btn = document.getElementById('downloadBtn');
+  
+  btn.addEventListener('click', async () => {
+    const url = document.getElementById('urlInput').value.trim();
+    if (!url) {alert('Please enter a Facebook video URL.');
       return;
     }
-    errorMsg.textContent = '';
-    downloadsDiv.innerHTML = '';
-    videoContainer.style.display = 'none';
-    previewVideo.pause();
-previewVideo.src = '';
+    output.innerHTML = 'Loading...';
 
     try {
-      downloadBtn.disabled = true;
-      downloadBtn.textContent = 'Loading...';
-
-      const res = await fetch(`apiBase?token={apiToken}&url=encodeURIComponent(url)`);
+      const apiURL = `https://api.princetechn.com/api/download/facebook?apikey=apiKey   url={encodeURIComponent(url)}`;
+      const res = await fetch(apiURL);
       const data = await res.json();
 
-      downloadBtn.disabled = false;
-      downloadBtn.textContent = 'Get Video';
-
-      if (data        data.videoUrl) 
-        videoContainer.style.display = 'block';
-        previewVideo.src = data.videoUrl;
-        previewVideo.play();
-
-        downloadsDiv.innerHTML = ”;
-        // Some API responses have multiple qualities - simulate if missing
-        // If API returns only one videoUrl, create one download button
-        // Otherwise iterate over data.qualities or similar
-        downloadsDiv.innerHTML = `
-          <a class="download-btn" href="{data.videoUrl}" download target="_blank">Download Video</a>
-        `;
-      } else {
-        throw new Error('No video URL found.');
+      if (data.status !== 'success') {
+        output.innerHTML = 'Video not found or API error.';
+        return;
       }
-    } catch (err) {
-      errorMsg.textContent = 'Error fetching video. Try a different link or try again later.';
-      videoContainer.style.display = 'none';
-    }
-  }
 
-  downloadBtn.addEventListener('click', downloadVideo);
+      // Assuming data.result has video links, usually in data.result or data.result.video_url
+      const videoUrl = data.result?.video_url || data.result?.url || null;
+      if (!videoUrl) {
+        output.innerHTML = 'No video URL found in API response.';
+        return;
+      }
+
+      output.innerHTML = `
+        <video controls autoplay src="videoUrl"></video>
+        <a class="download-link" href="{videoUrl}" download>Download Video</a>
+      `;
+    } catch (error) {
+      output.innerHTML = 'Error fetching video. Try again later.';
+      console.error(error);
+    }
+  });
 </script>
+
 </body>
 </html>
