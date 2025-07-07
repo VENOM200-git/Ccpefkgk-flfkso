@@ -1,9 +1,9 @@
 <!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>VENOM MEME</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     html, body {
       margin: 0;
@@ -194,35 +194,52 @@ footer {
 </section><div id="usage-time">Time: 0m 0s</div><footer>
   Built by VENOM | <i class="fab fa-whatsapp"></i> WhatsApp DM & Channel Only
 </footer><script>
+function switchTab(tabId) {
+  document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  [...document.querySelectorAll('nav button')].find(b => b.textContent.toLowerCase() === tabId).classList.add('active');
+}
+
+function unlockAdmin() {
+  const pass = document.getElementById('adminPass').value;
+  if (pass === 'venomadmin123') {
+    document.getElementById('adminPanel').style.display = 'block';
+  } else {
+    alert('Wrong password');
+  }
+}
+
+function postMeme() {
+  const file = document.getElementById('fileInput').files[0];
+  const caption = document.getElementById('captionInput').value;
+  if (!file) return alert("Choose a meme file first");
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    const src = e.target.result;
+    const container = document.createElement('div');
+    container.className = 'meme-post';
+    const media = file.type.includes("video") ? `<video src="${src}" controls></video>` : `<img src="${src}" alt="meme">`;
+    container.innerHTML = `
+      ${media}
+      <div class="watermark">VENOM</div>
+      <div class="caption">${caption}</div>
+      <div class="like-count"><i class="fas fa-heart"></i> <span>0</span></div>
+    `;
+    document.getElementById("reels-container").prepend(container);
+  }
+  reader.readAsDataURL(file);
+}
+
 let start = Date.now();
 setInterval(() => {
   const now = Date.now();
   const secs = Math.floor((now - start) / 1000);
   const mins = Math.floor(secs / 60);
   document.getElementById("usage-time").textContent = `Time: ${mins}m ${secs % 60}s`;
-
   if (mins >= 20) {
-    document.getElementById('chatMessage').innerHTML = `<textarea rows='4' cols='40' placeholder='Say something...'></textarea><br><button>Send</button>`;} }, 1000);
-
-function switchTab(tabId) { document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active')); document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active')); document.getElementById(tabId).classList.add('active'); [...document.querySelectorAll('nav button')].find(b => b.textContent.toLowerCase() === tabId).classList.add('active'); }
-
-function unlockAdmin() { const pass = document.getElementById('adminPass').value; if (pass === 'venomadmin123') { document.getElementById('adminPanel').style.display = 'block'; } else { alert('Wrong password'); } }
-
-function postMeme() { const file = document.getElementById('fileInput').files[0]; const caption = document.getElementById('captionInput').value; if (!file) return alert("Choose a meme file first");
-
-const reader = new FileReader(); reader.onload = function (e) { const src = e.target.result; const container = document.createElement('div'); container.className = 'meme-post';
-
-const media = file.type.includes("video") ? `<video src="${src}" controls></video>` : `<img src="${src}" alt="meme">`;
-
-container.innerHTML = `
-  ${media}
-  <div class="watermark">VENOM</div>
-  <div class="caption">${caption}</div>
-  <div class="like-count"><i class="fas fa-heart"></i> <span>0</span></div>
-`;
-document.getElementById("reels-container").prepend(container);
-
-} reader.readAsDataURL(file); } </script>
+    document.getElementById('chatMessage').innerHTML = `<textarea rows='4' cols='40' placeholder='Say something...'></textarea><br><button>Send</button>`;} }, 1000); </script>
 
 </body>
   </html>
