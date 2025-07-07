@@ -9,43 +9,63 @@
       margin: 0;
       padding: 0;
       font-family: 'Segoe UI', sans-serif;
-      background-color: #111;
+      background-color: #000;
       color: #fff;
       overflow-x: hidden;
+      font-size: 1.1rem;
     }header {
-  background: #1f1f1f;
+  background: #121212;
   padding: 20px;
   text-align: center;
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: bold;
-  color: lime;
+  color: #ff0050;
   letter-spacing: 0.3em;
 }
 
+.menu-toggle {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  cursor: pointer;
+  z-index: 2000;
+}
+
 nav {
-  display: flex;
-  justify-content: space-around;
-  background-color: #222;
-  padding: 10px 0;
-  position: sticky;
-  top: 0;
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: 70px;
+  left: 10px;
+  background: #1a1a1a;
+  border-radius: 10px;
+  overflow: hidden;
   z-index: 1000;
 }
 
+nav.show {
+  display: flex;
+}
+
 nav button {
-  background: #333;
+  background: #1a1a1a;
   border: none;
-  padding: 10px 20px;
+  padding: 15px 20px;
   color: #fff;
-  font-size: 1rem;
-  border-radius: 8px;
+  font-size: 1.2rem;
+  text-align: left;
+  border-bottom: 1px solid #333;
   cursor: pointer;
   transition: all 0.3s;
 }
 
 nav button:hover, nav button.active {
-  background: lime;
-  color: #000;
+  background: #ff0050;
+  color: #fff;
 }
 
 .tab {
@@ -72,7 +92,7 @@ nav button:hover, nav button.active {
 .meme-post {
   position: relative;
   max-width: 100%;
-  background: #1a1a1a;
+  background: #121212;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 0 10px #000;
@@ -87,7 +107,7 @@ nav button:hover, nav button.active {
 .caption {
   padding: 10px;
   background-color: #111;
-  font-size: 0.9em;
+  font-size: 1rem;
 }
 
 .caption a[href*="whatsapp"]::before {
@@ -95,16 +115,16 @@ nav button:hover, nav button.active {
   font-family: 'Font Awesome 6 Free';
   font-weight: 900;
   margin-right: 5px;
-  color: lime;
+  color: #25D366;
 }
 
 .watermark {
   position: absolute;
   top: 5px;
   left: 5px;
-  font-size: 0.8rem;
-  padding: 2px 5px;
-  background: rgba(0, 255, 0, 0.6);
+  font-size: 1rem;
+  padding: 2px 6px;
+  background: rgba(255, 0, 80, 0.6);
   border-radius: 5px;
 }
 
@@ -118,36 +138,38 @@ nav button:hover, nav button.active {
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 0.85em;
+  font-size: 1rem;
 }
 
 .like-count i {
-  color: red;
+  color: #ff0050;
 }
 
 #usage-time {
   position: fixed;
   bottom: 5px;
   right: 10px;
-  font-size: 0.8em;
+  font-size: 1rem;
   background: rgba(255,255,255,0.1);
-  padding: 4px 10px;
+  padding: 6px 12px;
   border-radius: 5px;
   z-index: 9999;
 }
 
 footer {
   text-align: center;
-  font-size: 0.85em;
-  background: #1f1f1f;
+  font-size: 1rem;
+  background: #1a1a1a;
   padding: 10px;
-  color: lime;
+  color: #ff0050;
   margin-top: 20px;
 }
 
   </style>
 </head>
-<body><header>🇻 🇪 🇳 🇴 🇲 MEME</header><nav>
+<body><header>🇻 🇪 🇳 🇴 🇲 MEME</header><button class="menu-toggle" onclick="toggleMenu()">
+  <i class="fas fa-bars"></i>
+</button><nav id="menu">
   <button onclick="switchTab('home')" class="active">Home</button>
   <button onclick="switchTab('info')">Info</button>
   <button onclick="switchTab('about')">About</button>
@@ -190,7 +212,9 @@ footer {
   </marquee>
 </section><section id="chat" class="tab">
   <h2>Community Chat</h2>
-  <div id="chatMessage">🔒 Available after 20 minutes of usage</div>
+  <div id="chatMessage">
+    <textarea rows='4' cols='40' placeholder='Say something...'></textarea><br><button>Send</button>
+  </div>
 </section><div id="usage-time">Time: 0m 0s</div><footer>
   Built by VENOM | <i class="fab fa-whatsapp"></i> WhatsApp DM & Channel Only
 </footer><script>
@@ -199,6 +223,11 @@ function switchTab(tabId) {
   document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
   document.getElementById(tabId).classList.add('active');
   [...document.querySelectorAll('nav button')].find(b => b.textContent.toLowerCase() === tabId).classList.add('active');
+  document.getElementById("menu").classList.remove("show");
+}
+
+function toggleMenu() {
+  document.getElementById("menu").classList.toggle("show");
 }
 
 function unlockAdmin() {
@@ -220,7 +249,9 @@ function postMeme() {
     const src = e.target.result;
     const container = document.createElement('div');
     container.className = 'meme-post';
-    const media = file.type.includes("video") ? `<video src="${src}" controls></video>` : `<img src="${src}" alt="meme">`;
+    const media = file.type.includes("video")
+      ? `<video src="${src}" controls></video>`
+      : `<img src="${src}" alt="meme">`;
     container.innerHTML = `
       ${media}
       <div class="watermark">VENOM</div>
@@ -238,8 +269,6 @@ setInterval(() => {
   const secs = Math.floor((now - start) / 1000);
   const mins = Math.floor(secs / 60);
   document.getElementById("usage-time").textContent = `Time: ${mins}m ${secs % 60}s`;
-  if (mins >= 20) {
-    document.getElementById('chatMessage').innerHTML = `<textarea rows='4' cols='40' placeholder='Say something...'></textarea><br><button>Send</button>`;} }, 1000); </script>
-
-</body>
+}, 1000);
+</script></body>
   </html>
